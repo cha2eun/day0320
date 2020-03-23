@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style type="text/css">
+ul{	overflow: hidden;}
+li{	float: left; list-style: none; padding: 10px; cursor: pointer; }
+*{ margin: 0px; padding: 0px; }
+#wrap{ overflow: hidden; }
+.item{ margin: 5px; padding: 5px; width: 300px; height: 150px; float: left;
+	border: 3px solid gray; border-radius: 10px; }
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+/*	function getItems(nowPage, itemsPerPage){	}*/
+	var arr;
+	var totalRecord=0;
+	var totalPage=1;
+	var pageSIZE=6;	//한 화면에 6개씩 보이고싶음
+	$.getJSON("goodsList",function(data){
+		arr=data;
+		totalRecord=arr.length;
+		totalPage=Math.ceil(totalRecord/pageSIZE);		//math.ceil-->올림수 취하기
+		
+		//페이지번호 출력
+		for(var i=1;i<=totalPage;i++){
+			var li=$("<li></li>").html(i);
+			$(".paging_btn").append(li);
+		}
+		//상품출력
+		$.each(arr,function(idx,g){
+			var div = $("<div></div>").addClass("item");
+			var item=$("<h5></h5>").html(g.item);
+			var img=$("<img></img>").attr({src:"img/"+g.fname, width:50,height:50});
+			var qty=$("<p></p>").html(g.qty);
+			var price=$("<p></p>").html(g.price);
+			var detail=$("<p></p>").html(g.detail);
+			$(div).append(item,img,qty,price,detail);
+			$("#wrap").append(div);
+		})
+	})
+	
+})
+
+</script>
+</head>
+<body>
+	<ul class="paging_btn"></ul>
+	<div id="wrap"></div>
+	<ul class="paging_btn"></ul>
+</body>
+</html>

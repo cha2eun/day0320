@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#my_form").submit(function(event){
+		
+		var member=$("#my_form").serializeArray();
+		var str = $.param(member);
+		console.log(str);
+
+		var url="ActionWithData?"+str;
+//		$.ajax("ActionWithData",{data:member,success:function(r){
+//			$("#wrap").html(r);
+//		}})
+		
+		$("#wrap").load(url);
+		event.preventDefault();
+	})
+	
+})
+</script>
+</head>
+<body>
+<form action="login.do" method="post" id="my_form">
+<table>
+	<tr>
+		<td><label for="name">name</td>
+		<td><input id="name" name="name" type="text"/></td>
+	</tr>
+	<tr>
+		<td><label for="age">age</td>
+		<td><input id="age" name="age" type="text"/></td>
+	</tr>
+</table>
+<input type="submit" value="Get Ajax String">
+</form>
+<div id="wrap"></div>
+</body>
+</html>
